@@ -1,10 +1,8 @@
 package toolsqa;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import net.bytebuddy.asm.Advice;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.*;
 import org.testng.annotations.Test;
 import org.testng.asserts.Assertion;
@@ -14,10 +12,9 @@ public class PracticeForm {
 
 
     @Test
-    void fillOutTheForm(){
+    void fillOutTheForm() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        System.out.println();
 
         driver.get("https://demoqa.com/automation-practice-form");
         driver.manage().window().maximize();
@@ -65,7 +62,6 @@ public class PracticeForm {
         assertion.assertTrue(hobbies.getText().contains("Hobbies"));
         WebElement picture = driver.findElement(By.xpath("//td[text()='4.png']"));
         assertion.assertTrue(picture.getText().contains("4.png"));
-
         WebElement stateAndCity = driver.findElement(By.xpath("//td[text()='Haryana Karnal']"));
         assertion.assertTrue(stateAndCity.getText().contains("Haryana Karnal"));
 
