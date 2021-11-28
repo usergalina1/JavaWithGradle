@@ -33,7 +33,7 @@ public class PracticeForm {
         WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='Arts'])[2]"))).click();
 
-        driver.findElement(By.cssSelector("#uploadPicture")).sendKeys("C:\\Users\\galin\\_DOC\\Pictures\\4.png");
+        driver.findElement(By.cssSelector("#uploadPicture")).sendKeys("C:\\Users\\galin\\Git\\JavaWithGradle\\src\\test\\resources\\img\\4.png");
 
         driver.findElement(By.cssSelector("[for=hobbies-checkbox-3]")).click();
         driver.findElement(By.cssSelector("#currentAddress")).sendKeys("2052 N Lincoln Park W, Chicago, Il, 64014 ");
