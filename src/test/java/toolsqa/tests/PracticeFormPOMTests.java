@@ -1,23 +1,26 @@
-package toolsqa;
+package toolsqa.tests;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import org.testng.asserts.Assertion;
 
-public class PracticeForm {
-    WebDriver driver;
+public class PracticeFormPOMTests extends TestBase{
+
 
 
     @Test
     void fillOutTheForm() {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
 
-        driver.get("https://demoqa.com/automation-practice-form");
-        driver.manage().window().maximize();
+
+
+
+
         driver.findElement(By.cssSelector("#firstName")).sendKeys("Peter");
         driver.findElement(By.cssSelector("#lastName")).sendKeys("First");
         driver.findElement(By.cssSelector("#userEmail")).sendKeys("first@gmail.com");
