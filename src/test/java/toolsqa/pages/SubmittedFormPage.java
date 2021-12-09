@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-public class SubmitedFormPage {
+public class SubmittedFormPage {
 
 
 
@@ -53,56 +53,56 @@ public class SubmitedFormPage {
     private WebElement elTitleOfSubmittedForm;
 
     //actions
-    public SubmitedFormPage(WebDriver driver) {
+    public SubmittedFormPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }
-    public SubmitedFormPage verifyStudentName(String name) {
+    public SubmittedFormPage verifyStudentName(String name) {
         Assert.assertEquals(elStudentName.getText(), name);
         return this;
     }
 
-    public SubmitedFormPage verifyGender(String gender) {
+    public SubmittedFormPage verifyGender(String gender) {
         Assert.assertEquals(elGender.getText(), gender);
         return this;
     }
 
-    public SubmitedFormPage verifyPhoneNumber(String phone) {
+    public SubmittedFormPage verifyPhoneNumber(String phone) {
         Assert.assertEquals(elPhoneNumber.getText(), phone);
         return this;
     }
 
-    public SubmitedFormPage verifyDateOfBirth(String dateOfBirth) {
+    public SubmittedFormPage verifyDateOfBirth(String dateOfBirth) {
         Assert.assertEquals(elDateOfBirth.getText(), dateOfBirth);
         return this;
     }
 
-    public SubmitedFormPage verifySubjects(String subject) {
+    public SubmittedFormPage verifySubjects(String subject) {
         Assert.assertEquals(elSubjects.getText(), subject);
         return this;
     }
 
-    public SubmitedFormPage verifyHobbies(String hobby) {
+    public SubmittedFormPage verifyHobbies(String hobby) {
         Assert.assertEquals(elHobbies.getText(), hobby);
         return this;
     }
 
-    public SubmitedFormPage verifyPicture(String picture) {
+    public SubmittedFormPage verifyPicture(String picture) {
         Assert.assertEquals(elPicture.getText(), picture);
         return this;
     }
 
-    public SubmitedFormPage verifyAddress(String address) {
+    public SubmittedFormPage verifyAddress(String address) {
         Assert.assertEquals(elAddress.getText(), address);
         return this;
     }
 
-    public SubmitedFormPage verifyStateAndCity(String stateAndCity) {
+    public SubmittedFormPage verifyStateAndCity(String stateAndCity) {
         Assert.assertEquals(elStateAndCity.getText(), stateAndCity);
         return this;
     }
 
-    public SubmitedFormPage clickCloseBtn() {
+    public SubmittedFormPage clickCloseBtn() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript(
                 "arguments[0].click();",
@@ -110,7 +110,7 @@ public class SubmitedFormPage {
         );
         return this;
     }
-    public SubmitedFormPage waitTitleOfSubmittedForm(String title) {
+    public SubmittedFormPage waitTitleOfSubmittedForm(String title) {
         new WebDriverWait(driver, 5).until(ExpectedConditions.textToBePresentInElement(driver.findElement(By.cssSelector(".modal-title")), title));
         return this;
     }

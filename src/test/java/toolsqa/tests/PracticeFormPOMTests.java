@@ -3,17 +3,17 @@ package toolsqa.tests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import toolsqa.pages.RegistrationPage;
-import toolsqa.pages.SubmitedFormPage;
+import toolsqa.pages.SubmittedFormPage;
 
 public class PracticeFormPOMTests extends TestBase {
 
     RegistrationPage registrationPage;
-    SubmitedFormPage submitedFormPage;
+    SubmittedFormPage submittedFormPage;
 
     @BeforeMethod
     void setUp() {
         registrationPage = new RegistrationPage(driver);
-        submitedFormPage = new SubmitedFormPage(driver);
+        submittedFormPage = new SubmittedFormPage(driver);
     }
 
     @Test
@@ -35,7 +35,7 @@ public class PracticeFormPOMTests extends TestBase {
                 .selectCity("Karnal")
                 .submitForm();
 
-        submitedFormPage.waitTitleOfSubmittedForm("Thanks for submitting the form")
+        submittedFormPage.waitTitleOfSubmittedForm("Thanks for submitting the form")
                 .verifyStudentName("Peter First")
                 .verifyGender("Female")
                 .verifyPhoneNumber("1234567890")

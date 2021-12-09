@@ -3,11 +3,8 @@ package toolsqa.tests;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import toolsqa.pages.RegistrationPage;
-import toolsqa.pages.SubmitedFormPage;
 
 public class TestBase {
 
@@ -15,7 +12,7 @@ public class TestBase {
 
 
     @BeforeMethod()
-    public WebDriver initialization(){
+    public WebDriver initialization() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -24,7 +21,7 @@ public class TestBase {
     }
 
     @AfterMethod()
-    public void tearDown(){
+    public void tearDown() {
         driver.quit();
     }
 }
