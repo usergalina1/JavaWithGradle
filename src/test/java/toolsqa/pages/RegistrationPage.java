@@ -15,7 +15,6 @@ import org.testng.Assert;
 
 public class RegistrationPage {
 
-
     //locators and elements
     private final String FIRST_NAME_FIELD = "#firstName";
     private final String LAST_NAME_FIELD = "#lastName";

@@ -10,9 +10,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+
 public class SubmitedFormPage {
-
-
 
     //locators and elements
     private final String STUDENT_NAME = "//td[text()='Student Name']//following-sibling::td";
