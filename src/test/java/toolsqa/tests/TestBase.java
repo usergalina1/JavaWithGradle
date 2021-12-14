@@ -10,7 +10,6 @@ public class TestBase {
 
     WebDriver driver;
 
-
     @BeforeMethod()
     public WebDriver initialization() {
         WebDriverManager.chromedriver().setup();
