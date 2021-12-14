@@ -12,9 +12,6 @@ import org.testng.Assert;
 
 public class SubmittedFormPage {
 
-
-
-    //locators and elements
     private final String STUDENT_NAME = "//td[text()='Student Name']//following-sibling::td";
     private final String GENDER = "//td[text()='Gender']//following-sibling::td";
     private final String PHONE_NUMBER = "//td[text()='Mobile']//following-sibling::td";
@@ -24,8 +21,9 @@ public class SubmittedFormPage {
     private final String PICTURE = "//td[text()='Picture']//following-sibling::td";
     private final String ADDRESS = "//td[text()='Address']//following-sibling::td";
     private final String STATE_AND_CITY = "//td[text()='State and City']//following-sibling::td";
-    private final String CLOSE_BTN = "#closeLargeModal";
+    private final String CLOSE_MODAL = "#closeLargeModal";
     private final String TITLE_OF_SUBMITTED_FORM = ".modal-title";
+    private final String MODAL_CONTENT = ".modal-content";
 
     private WebDriver driver;
 
@@ -47,16 +45,18 @@ public class SubmittedFormPage {
     private WebElement elAddress;
     @FindBy(xpath = STATE_AND_CITY)
     private WebElement elStateAndCity;
-    @FindBy(css = CLOSE_BTN)
-    private WebElement elCloseBtn;
+    @FindBy(css = CLOSE_MODAL)
+    private WebElement elCloseModal;
     @FindBy(css = TITLE_OF_SUBMITTED_FORM)
     private WebElement elTitleOfSubmittedForm;
+    @FindBy(css = MODAL_CONTENT)
+    private WebElement elModalContent;
 
-    //actions
     public SubmittedFormPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }
+
     public SubmittedFormPage verifyStudentName(String name) {
         Assert.assertEquals(elStudentName.getText(), name);
         return this;
@@ -102,16 +102,21 @@ public class SubmittedFormPage {
         return this;
     }
 
-    public SubmittedFormPage clickCloseBtn() {
+    public SubmittedFormPage closeModal() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript(
-                "arguments[0].click();",
-                driver.findElement(By.cssSelector("#closeLargeModal"))
+                "arguments[0].click();", elCloseModal
         );
         return this;
     }
+
     public SubmittedFormPage waitTitleOfSubmittedForm(String title) {
-        new WebDriverWait(driver, 5).until(ExpectedConditions.textToBePresentInElement(driver.findElement(By.cssSelector(".modal-title")), title));
+        new WebDriverWait(driver, 5).until(ExpectedConditions.textToBePresentInElement(elTitleOfSubmittedForm, title));
+        return this;
+    }
+
+    public  SubmittedFormPage waitModalContentIsNotPresent(){
+        new WebDriverWait(driver, 5).until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(MODAL_CONTENT)));
         return this;
     }
 }
