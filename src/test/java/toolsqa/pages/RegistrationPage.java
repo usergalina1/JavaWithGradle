@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -30,7 +29,6 @@ public class RegistrationPage {
     private final String STATE = "#state";
     private final String CITY = "#city";
     private final String SUBMIT = "#submit";
-    private final String NAME_OF_FORM = ".main-header";
 
     private WebDriver driver;
 
@@ -53,11 +51,11 @@ public class RegistrationPage {
     @FindBy(css = UPLOAD_PICTURE)
     private WebElement elUploadPicture;
     @FindBy(css = HOBBIES_SPORTS)
-    private WebElement elHobbiesSports;
+    private WebElement elHobbySports;
     @FindBy(css = HOBBIES_READING)
-    private WebElement elHobbiesReading;
+    private WebElement elHobbyReading;
     @FindBy(css = HOBBIES_MUSIC)
-    private WebElement elHobbiesMusic;
+    private WebElement elHobbyMusic;
     @FindBy(css = ADDRESS)
     private WebElement elAddress;
     @FindBy(css = STATE)
@@ -66,110 +64,122 @@ public class RegistrationPage {
     private WebElement elCity;
     @FindBy(css = SUBMIT)
     private WebElement elSubmitBtn;
-    @FindBy(css = NAME_OF_FORM)
-    private WebElement elNameOfForm;
-
 
     public RegistrationPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }
 
-    public RegistrationPage fillFirstNameField(String value) {
-        elFirstName.sendKeys(value);
+    public RegistrationPage fillFirstName(String name) {
+        elFirstName.sendKeys(name);
         return this;
     }
 
-    public RegistrationPage fillLastNameField(String value) {
-        elLastName.sendKeys(value);
+    public RegistrationPage fillLastName(String name) {
+        elLastName.sendKeys(name);
         return this;
     }
 
-    public RegistrationPage fillEmailField(String value) {
-        elEmail.sendKeys(value);
+    public RegistrationPage fillEmail(String email) {
+        elEmail.sendKeys(email);
         return this;
     }
 
     public RegistrationPage clickGender(Gender gender) {
-
-        if (gender.equals(Gender.Male)) {
-            elGenderMale.click();
-        } else if (gender.equals(Gender.Female)) {
-            elGenderFemale.click();
-        } else {
-            elGenderOther.click();
+//        if (gender.equals(Gender.Male)) {
+//            elGenderMale.click();
+//        } else if (gender.equals(Gender.Female)) {
+//            elGenderFemale.click();
+//        } else if (gender.equals(Gender.Other)){
+//            elGenderOther.click();
+//        }
+//        return this;
+//  OR
+        switch (gender.toString()) {
+            case ("Male"):
+                elGenderMale.click();
+                break;
+            case ("Female"):
+                elGenderFemale.click();
+                break;
+            case ("Other"):
+                elGenderOther.click();
+                break;
+            default:
+                throw new RuntimeException("Unsupported gender " + gender);
         }
         return this;
     }
 
-    public RegistrationPage fillPhoneNumberField(String value) {
-        elPhoneNumber.sendKeys(value);
+    public RegistrationPage fillPhoneNumber(String phone) {
+        elPhoneNumber.sendKeys(phone);
         return this;
     }
 
-    public RegistrationPage fillSubjectField(String subject) {
+    public RegistrationPage fillSubject(String subject) {
         elSubject.sendKeys(subject);
+        new WebDriverWait(driver, 5)
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='" + subject + "'])[2]"))).click();
         return this;
     }
 
-    public RegistrationPage selectPicture(String path) {
+    public RegistrationPage uploadPicture(String path) {
         elUploadPicture.sendKeys(path);
         return this;
     }
 
-    public RegistrationPage selectHobbies(Hobbies hobby) {
-        if (hobby.equals(Hobbies.Sports)) {
-            elHobbiesSports.click();
-        } else if (hobby.equals(Hobbies.Reading)) {
-            elHobbiesReading.click();
-        } else {
-            elHobbiesMusic.click();
+    public RegistrationPage selectHobby(Hobbies hobby) {
+//        if (hobby.equals(Hobbies.Sports)) {
+//            elHobbySports.click();
+//        } else if (hobby.equals(Hobbies.Reading)) {
+//            elHobbyReading.click();
+//        } else {
+//            elHobbyMusic.click();
+//        }
+//        return this;
+//  OR
+        switch (hobby.name()) {
+            case ("Sports"):
+                elHobbySports.click();
+                break;
+            case ("Reading"):
+                elHobbyReading.click();
+                break;
+            case ("Music"):
+                elHobbyMusic.click();
+                break;
         }
         return this;
     }
 
-    public RegistrationPage fillAddressField(String address) {
+    public RegistrationPage fillAddress(String address) {
         elAddress.sendKeys(address);
         return this;
     }
 
-    public RegistrationPage scrollToStateField() {
+    public RegistrationPage selectState(String state) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript(
                 "arguments[0].scrollIntoView();", elState
         );
-        return this;
-    }
 
-    public RegistrationPage selectState(String state) {
         elState.click();
-        WebElement statefield = driver.findElement(By.xpath("//div[@id='state']//div[text()='" + state + "']"));
-        Actions actions = new Actions(driver);
-        actions
-                .moveToElement(statefield)
-                .click()
-                .perform();
+        new WebDriverWait(driver, 5)
+                .until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//div[text()='" + state + "']"))))
+                .click();
         return this;
     }
 
     public RegistrationPage selectCity(String city) {
         elCity.click();
-        WebElement cityfield = driver.findElement(By.xpath("//div[@id='city']//div[text()='" + city + "']"));
-        Actions actions = new Actions(driver);
-        actions
-                .moveToElement(cityfield)
-                .click()
-                .perform();
+        new WebDriverWait(driver, 5)
+                .until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//div[text()='" + city + "']"))))
+                .click();
         return this;
     }
 
     public RegistrationPage submitForm() {
         elSubmitBtn.click();
-        return this;
-    }
-
-    public RegistrationPage waitAndClickVisibilityOfElementByText() {
-        new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='Arts'])[2]"))).click();
         return this;
     }
 }

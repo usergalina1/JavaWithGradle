@@ -3,81 +3,89 @@ package toolsqa.tests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import toolsqa.pages.RegistrationPage;
-import toolsqa.pages.SubmittedFormPage;
 import toolsqa.pages.widgets.Calendar;
 import toolsqa.pages.widgets.Gender;
 import toolsqa.pages.widgets.Hobbies;
+import toolsqa.pages.widgets.ModalSubmittedForm;
 
 public class PracticeFormPOMTests extends TestBase {
+    String firstName = "Peter";
+    String lastName = "First";
+    String email = "first@gmail.com";
+    String phone = "1234567890";
+    String month = "3";
+    String date = "14";
+    String year = "1970";
+    String subject = "Arts";
+    String picture = "C:\\Users\\galin\\Git\\JavaWithGradle\\src\\test\\resources\\img\\4.png";
+    String address = "2052 N Lincoln Park W, Chicago, Il, 64014";
+    String state = "Haryana";
+    String city = "Karnal";
 
     RegistrationPage registrationPage;
-    SubmittedFormPage submittedFormPage;
+    ModalSubmittedForm modalSubmittedForm;
     Calendar calendar;
 
     @BeforeMethod
     void setUp() {
         registrationPage = new RegistrationPage(driver);
-        submittedFormPage = new SubmittedFormPage(driver);
+        modalSubmittedForm = new ModalSubmittedForm(driver);
         calendar = new Calendar(driver);
     }
 
     @Test
     void fillOutTheForm() {
         registrationPage
-                .fillFirstNameField("Peter")
-                .fillLastNameField("First")
-                .fillEmailField("first@gmail.com")
+                .fillFirstName(firstName)
+                .fillLastName(lastName)
+                .fillEmail(email)
                 .clickGender(Gender.Male)
-                .fillPhoneNumberField("1234567890");
+                .fillPhoneNumber(phone);
         calendar
-                .fillDateOfBirthField("3", "14", "1970");
+                .fillDate(month, date, year);
         registrationPage
-                .fillSubjectField("Arts")
-                .waitAndClickVisibilityOfElementByText()
-                .selectPicture("C:\\Users\\galin\\Git\\JavaWithGradle\\src\\test\\resources\\img\\4.png")
-                .selectHobbies(Hobbies.Music)
-                .fillAddressField("2052 N Lincoln Park W, Chicago, Il, 64014")
-                .scrollToStateField()
-                .selectState("Haryana")
-                .selectCity("Karnal")
+                .fillSubject(subject)
+                .uploadPicture(picture)
+                .selectHobby(Hobbies.Music)
+                .fillAddress(address)
+                .selectState(state)
+                .selectCity(city)
                 .submitForm();
-        submittedFormPage
-                .waitTitleOfSubmittedForm("Thanks for submitting the form");
+        modalSubmittedForm
+                .modalWindowShouldBePresent();
     }
 
     @Test
-    void verifySubmittedForm(){
+    void verifySubmittedForm() {
         registrationPage
-                .fillFirstNameField("Peter")
-                .fillLastNameField("First")
-                .fillEmailField("first@gmail.com")
+                .fillFirstName(firstName)
+                .fillLastName(lastName)
+                .fillEmail(email)
                 .clickGender(Gender.Other)
-                .fillPhoneNumberField("1234567890");
+                .fillPhoneNumber(phone);
         calendar
-                .fillDateOfBirthField("3", "14", "1970");
+                .fillDate(month, date, year);
         registrationPage
-                .fillSubjectField("Arts")
-                .waitAndClickVisibilityOfElementByText()
-                .selectPicture("C:\\Users\\galin\\Git\\JavaWithGradle\\src\\test\\resources\\img\\4.png")
-                .selectHobbies(Hobbies.Reading)
-                .fillAddressField("2052 N Lincoln Park W, Chicago, Il, 64014")
-                .scrollToStateField()
-                .selectState("Haryana")
-                .selectCity("Karnal")
+                .fillSubject(subject)
+                .uploadPicture(picture)
+                .selectHobby(Hobbies.Reading)
+                .fillAddress(address)
+                .selectState(state)
+                .selectCity(city)
                 .submitForm();
-        submittedFormPage
-                .waitTitleOfSubmittedForm("Thanks for submitting the form")
-                .verifyStudentName("Peter First")
-                .verifyGender(Gender.Other.name())
-                .verifyPhoneNumber("1234567890")
-                .verifyDateOfBirth("14 April,1970")
-                .verifySubjects("Arts")
-                .verifyHobbies(Hobbies.Reading.name())
-                .verifyPicture("4.png")
-                .verifyAddress("2052 N Lincoln Park W, Chicago, Il, 64014")
-                .verifyStateAndCity("Haryana Karnal")
+        modalSubmittedForm
+                .modalWindowShouldBePresent()
+                .checkRow("Student Name", firstName + " " + lastName)
+                .checkRow("Gender", Gender.Other.name())
+                .checkRow("Mobile", phone)
+                .checkRow("Date of Birth", date + " " + "April" + "," + year)
+                .checkRow("Subjects", subject)
+                .checkRow("Hobbies", Hobbies.Reading.name())
+                .checkRow("Picture", "4.png")
+                .checkRow("Address", address)
+                .checkRow("State and City", state + " " + city)
                 .closeModal()
-                .waitModalContentIsNotPresent();
+                .modalWindowShouldNotBePresent();
     }
 }
 
