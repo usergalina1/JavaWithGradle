@@ -9,34 +9,31 @@ import org.openqa.selenium.support.ui.Select;
 
 public class Calendar {
 
-    private final String DATE_OF_BIRTH_INPUT = "#dateOfBirthInput";
-    private final String MONTH_OF_BIRTH_PICKER = ".react-datepicker__month-dropdown-container .react-datepicker__month-select";
-    private final String YEAR_OF_BIRTH_PICKER = ".react-datepicker__year-dropdown-container .react-datepicker__year-select";
+    private final String DATE = "#dateOfBirthInput";
+    private final String MONTH = ".react-datepicker__month-dropdown-container .react-datepicker__month-select";
+    private final String YEAR = ".react-datepicker__year-dropdown-container .react-datepicker__year-select";
 
     private WebDriver driver;
 
-    @FindBy(css = DATE_OF_BIRTH_INPUT)
-    private WebElement elDateOfBirthInput;
-    @FindBy(css = MONTH_OF_BIRTH_PICKER)
-    private WebElement elMonthOfBirthPicker;
-    @FindBy(css = YEAR_OF_BIRTH_PICKER)
-    private WebElement elYearOfBirthPicker;
+    @FindBy(css = DATE)
+    private WebElement elDate;
+    @FindBy(css = MONTH)
+    private WebElement elMonth;
+    @FindBy(css = YEAR)
+    private WebElement elYear;
 
     public Calendar(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }
 
-    public Calendar fillDateOfBirthField(String month, String date, String year) {
-        elDateOfBirthInput.click();
-        elMonthOfBirthPicker.click();
-        Select selectMonthOfBirth = new Select(elMonthOfBirthPicker);
-        selectMonthOfBirth.selectByValue(month);
-        elYearOfBirthPicker.click();
-        Select elYearOfBirthField = new Select(elYearOfBirthPicker);
-        elYearOfBirthField.selectByValue(year);
-        WebElement elDateOfBirthPicker = driver.findElement(By.xpath("//div[text()= '" + date + "']"));
-        elDateOfBirthPicker.click();
+    public Calendar fillDate(String month, String date, String year) {
+        elDate.click();
+        elMonth.click();
+        new Select(elMonth).selectByValue(month);
+        elYear.click();
+        new Select(elYear).selectByValue(year);
+        driver.findElement(By.xpath("//div[text()= '" + date + "']")).click();
         return this;
     }
 }
