@@ -1,17 +1,17 @@
 package toolsqa.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import toolsqa.pages.widgets.Gender;
-import toolsqa.pages.widgets.Hobbies;
+import org.testng.Assert;
+import toolsqa.dictionary.Gender;
+import toolsqa.dictionary.Hobbies;
 
-public class RegistrationPage {
+import java.util.List;
+
+public class RegistrationPage extends Page {
 
     private final String FIRST_NAME = "#firstName";
     private final String LAST_NAME = "#lastName";
@@ -21,7 +21,7 @@ public class RegistrationPage {
     private final String GENDER_OTHER = "[for=gender-radio-3]";
     private final String PHONE_NUMBER = "#userNumber";
     private final String SUBJECT = "#subjectsInput";
-    private final String UPLOAD_PICTURE = "#uploadPicture";
+    private final String FILE = "#uploadPicture";
     private final String HOBBIES_SPORTS = "[for=hobbies-checkbox-1]";
     private final String HOBBIES_READING = "[for=hobbies-checkbox-2]";
     private final String HOBBIES_MUSIC = "[for=hobbies-checkbox-3]";
@@ -29,6 +29,7 @@ public class RegistrationPage {
     private final String STATE = "#state";
     private final String CITY = "#city";
     private final String SUBMIT = "#submit";
+    private final String REQUIRED_FIELDS = "input:required";
 
     private WebDriver driver;
 
@@ -48,8 +49,8 @@ public class RegistrationPage {
     private WebElement elPhoneNumber;
     @FindBy(css = SUBJECT)
     private WebElement elSubject;
-    @FindBy(css = UPLOAD_PICTURE)
-    private WebElement elUploadPicture;
+    @FindBy(css = FILE)
+    private WebElement elFile;
     @FindBy(css = HOBBIES_SPORTS)
     private WebElement elHobbySports;
     @FindBy(css = HOBBIES_READING)
@@ -64,9 +65,11 @@ public class RegistrationPage {
     private WebElement elCity;
     @FindBy(css = SUBMIT)
     private WebElement elSubmitBtn;
+    @FindBy(css = REQUIRED_FIELDS)
+    private List<WebElement> elRequiredFields;
 
     public RegistrationPage(WebDriver driver) {
-        PageFactory.initElements(driver, this);
+        super(driver);
         this.driver = driver;
     }
 
@@ -95,7 +98,7 @@ public class RegistrationPage {
 //        }
 //        return this;
 //  OR
-        switch (gender.toString()) {
+        switch (gender.name()) {
             case ("Male"):
                 elGenderMale.click();
                 break;
@@ -111,20 +114,36 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage fillPhoneNumber(String phone) {
+    public RegistrationPage clickGenderMale(Gender male){
+        elGenderMale.click();
+        return this;
+    }
+
+    public RegistrationPage clickGenderFemale(Gender female){
+        elGenderFemale.click();
+        return this;
+    }
+
+    public RegistrationPage clickGenderOther(Gender other){
+        elGenderOther.click();
+        return this;
+    }
+
+
+
+    public RegistrationPage fillPhone(String phone) {
         elPhoneNumber.sendKeys(phone);
         return this;
     }
 
     public RegistrationPage fillSubject(String subject) {
         elSubject.sendKeys(subject);
-        new WebDriverWait(driver, 5)
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='" + subject + "'])[2]"))).click();
+        elSubject.sendKeys(Keys.ENTER);
         return this;
     }
 
     public RegistrationPage uploadPicture(String path) {
-        elUploadPicture.sendKeys(path);
+        elFile.sendKeys(path);
         return this;
     }
 
@@ -179,7 +198,16 @@ public class RegistrationPage {
     }
 
     public RegistrationPage submitForm() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView();", elSubmitBtn);
         elSubmitBtn.click();
+        return this;
+    }
+
+    public  RegistrationPage verifyRequiredFields(){
+        for (WebElement field : elRequiredFields){
+            Assert.assertTrue(Boolean.parseBoolean(field.getAttribute("required")), "Field is required");
+        }
         return this;
     }
 }

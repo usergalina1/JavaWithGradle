@@ -1,4 +1,4 @@
-package toolsqa.pages.widgets;
+package toolsqa.dictionary;
 
 public enum Gender {
     Male,
