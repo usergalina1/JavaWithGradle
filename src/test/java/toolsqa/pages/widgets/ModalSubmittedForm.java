@@ -9,14 +9,14 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import toolsqa.pages.Page;
 
-public class ModalSubmittedForm {
+public class ModalSubmittedForm extends Page {
 
     private final String CLOSE_MODAL = "#closeLargeModal";
     private final String MODAL_CONTENT = ".modal-content";
 
     private WebDriver driver;
-
 
     @FindBy(css = CLOSE_MODAL)
     private WebElement elCloseModal;
@@ -24,32 +24,29 @@ public class ModalSubmittedForm {
     private WebElement elModalContent;
 
     public ModalSubmittedForm(WebDriver driver) {
-        PageFactory.initElements(driver, this);
+        super(driver);
         this.driver = driver;
     }
 
     public ModalSubmittedForm checkRow(String line, String expectedText) {
-        Assert.assertEquals(driver
-                .findElement(By.xpath("//td[text()='" + line + "']//following-sibling::td"))
-                .getText(), expectedText);
+        String actualText = driver.findElement(By.xpath("//td[text()='" + line + "']//following-sibling::td")).getText();
+        Assert.assertEquals(actualText, expectedText);
         return this;
     }
 
     public ModalSubmittedForm closeModal() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript(
-                "arguments[0].click();", elCloseModal
-        );
+        js.executeScript("arguments[0].click();", elCloseModal);
         return this;
     }
 
     public ModalSubmittedForm modalWindowShouldBePresent() {
-        new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(MODAL_CONTENT)));
+        waitVisibilityOfElementLocated(driver, MODAL_CONTENT);
         return this;
     }
 
     public ModalSubmittedForm modalWindowShouldNotBePresent() {
-        new WebDriverWait(driver, 5).until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(MODAL_CONTENT)));
+        waitInvisibilityOfElementLocated(driver, MODAL_CONTENT);
         return this;
     }
 }

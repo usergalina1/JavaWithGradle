@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 public class Calendar {
 
     private final String DATE = "#dateOfBirthInput";
-    private final String MONTH = ".react-datepicker__month-dropdown-container .react-datepicker__month-select";
+    private final String MONTH = ".react-datepicker__month-select";
     private final String YEAR = ".react-datepicker__year-dropdown-container .react-datepicker__year-select";
 
     private WebDriver driver;
@@ -27,13 +27,14 @@ public class Calendar {
         this.driver = driver;
     }
 
-    public Calendar fillDate(String month, String date, String year) {
+    public void fillDate(String month, String date, String year) {
         elDate.click();
         elMonth.click();
-        new Select(elMonth).selectByValue(month);
+//        new Select(elMonth).selectByValue(String.valueOf(month - 1)); // month should be int in the method
+//        OR
+        driver.findElement(By.xpath("//select[@class='react-datepicker__month-select']//option[text() ='"+ month +"']")).click();
         elYear.click();
         new Select(elYear).selectByValue(year);
         driver.findElement(By.xpath("//div[text()= '" + date + "']")).click();
-        return this;
     }
 }
