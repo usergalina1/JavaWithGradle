@@ -1,17 +1,17 @@
 package toolsqa.pages;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import toolsqa.dictionary.Gender;
-import toolsqa.dictionary.Hobbies;
+import toolsqa.enums.Gender;
+import toolsqa.enums.Hobbies;
 
 import java.util.List;
 
-public class RegistrationPage extends Page {
+public class RegistrationPage extends BasePage {
 
     private final String FIRST_NAME = "#firstName";
     private final String LAST_NAME = "#lastName";
@@ -114,22 +114,20 @@ public class RegistrationPage extends Page {
         return this;
     }
 
-    public RegistrationPage clickGenderMale(Gender male){
+    public RegistrationPage clickGenderMale() {
         elGenderMale.click();
         return this;
     }
 
-    public RegistrationPage clickGenderFemale(Gender female){
+    public RegistrationPage clickGenderFemale() {
         elGenderFemale.click();
         return this;
     }
 
-    public RegistrationPage clickGenderOther(Gender other){
+    public RegistrationPage clickGenderOther() {
         elGenderOther.click();
         return this;
     }
-
-
 
     public RegistrationPage fillPhone(String phone) {
         elPhoneNumber.sendKeys(phone);
@@ -177,37 +175,27 @@ public class RegistrationPage extends Page {
     }
 
     public RegistrationPage selectState(String state) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript(
-                "arguments[0].scrollIntoView();", elState
-        );
-
+        jsScrollIntoView(driver, elState);
         elState.click();
-        new WebDriverWait(driver, 5)
-                .until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//div[text()='" + state + "']"))))
-                .click();
+        waitElementToBeClickable(driver, state).click();
         return this;
     }
 
     public RegistrationPage selectCity(String city) {
         elCity.click();
-        new WebDriverWait(driver, 5)
-                .until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//div[text()='" + city + "']"))))
-                .click();
+        WebElement el = driver.findElement(By.xpath("//div[text()='" + city + "']"));
+        waitElementToBeClickable(driver, el).click();
         return this;
     }
 
     public RegistrationPage submitForm() {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView();", elSubmitBtn);
+        jsScrollIntoView(driver, elSubmitBtn);
         elSubmitBtn.click();
         return this;
     }
 
-    public  RegistrationPage verifyRequiredFields(){
-        for (WebElement field : elRequiredFields){
-            Assert.assertTrue(Boolean.parseBoolean(field.getAttribute("required")), "Field is required");
-        }
+    public RegistrationPage verifySizeRequiredFields(int expectedResult) {
+        Assert.assertEquals(elRequiredFields.size(), expectedResult);
         return this;
     }
 }

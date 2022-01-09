@@ -2,23 +2,23 @@ package toolsqa.tests;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import toolsqa.pages.Page;
+import toolsqa.pages.BasePage;
 import toolsqa.pages.RegistrationPage;
 import toolsqa.pages.widgets.Calendar;
-import toolsqa.dictionary.Gender;
-import toolsqa.dictionary.Hobbies;
+import toolsqa.enums.Gender;
+import toolsqa.enums.Hobbies;
 import toolsqa.pages.widgets.ModalSubmittedForm;
 
 public class PracticeFormPOMTests extends TestBase {
 
-    Page page;
+    BasePage page;
     RegistrationPage registrationPage;
     ModalSubmittedForm modalSubmittedForm;
     Calendar calendar;
 
     @BeforeMethod
     void setUp() {
-        page = new Page(driver);
+        page = new BasePage(driver);
         registrationPage = new RegistrationPage(driver);
         modalSubmittedForm = new ModalSubmittedForm(driver);
         calendar = new Calendar(driver);
@@ -27,10 +27,12 @@ public class PracticeFormPOMTests extends TestBase {
     @Test
     void verifyRequiredFields() {
         page
-                .openURL();
+                .open("https://demoqa.com/automation-practice-form");
         registrationPage
                 .submitForm()
-                .verifyRequiredFields();
+                .verifySizeRequiredFields(6);
+        modalSubmittedForm
+                .isNotModalWindowPresent();
     }
 
     @Test
@@ -49,14 +51,14 @@ public class PracticeFormPOMTests extends TestBase {
         String city = "Karnal";
 
         page
-                .openURL();
+                .open("https://demoqa.com/automation-practice-form");
         registrationPage
                 .fillFirstName(firstName)
                 .fillLastName(lastName)
                 .fillEmail(email)
 //                .clickGender(Gender.Other)
 //                OR
-                .clickGenderOther(Gender.Other)
+                .clickGenderOther()
                 .fillPhone(phone);
         calendar
                 .fillDate(month, date, year);
