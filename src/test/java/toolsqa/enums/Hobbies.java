@@ -1,4 +1,4 @@
-package toolsqa.dictionary;
+package toolsqa.enums;
 
 public enum Hobbies {
     Sports,

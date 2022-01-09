@@ -15,7 +15,6 @@ public class PracticeFormTests {
     WebDriver driver;
     WebDriverWait wait;
 
-
     @Test
     void fillOutTheForm() {
         WebDriverManager.chromedriver().setup();

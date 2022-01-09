@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
+import toolsqa.enums.Months;
 
 public class Calendar {
 
@@ -32,7 +33,8 @@ public class Calendar {
         elMonth.click();
 //        new Select(elMonth).selectByValue(String.valueOf(month - 1)); // month should be int in the method
 //        OR
-        driver.findElement(By.xpath("//select[@class='react-datepicker__month-select']//option[text() ='"+ month +"']")).click();
+//        driver.findElement(By.xpath("//select[@class='react-datepicker__month-select']//option[text() ='"+ month +"']")).click();
+        driver.findElement(By.xpath("//select[@class='react-datepicker__month-select']//option[text() ='"+ Months.valueOf(month) +"']")).click();
         elYear.click();
         new Select(elYear).selectByValue(year);
         driver.findElement(By.xpath("//div[text()= '" + date + "']")).click();
